@@ -24,19 +24,9 @@ jobs:
         run: |
          sudo apt update -y
          sudo apt install curl -y
-         curl -sSL https://install.python-poetry.org | python3 -
          python -m pip install --upgrade pip
-      
-      - name: Setup Poetry
-        run: |
-          export PATH=/root/.local/bin:${PATH}
-          mkdir lab
-          python -m venv ./lab
-          source ./lab/bin/activate
-          poetry install
-      - name: install Pytest
-        run: |
-          pip install pytest
+         pip install -r requirements.txt
+
       - name: Run PyTest
         run: |
           pytest
