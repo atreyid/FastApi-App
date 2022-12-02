@@ -34,6 +34,9 @@ jobs:
           python -m venv ./lab
           source ./lab/bin/activate
           poetry install
+      - name: install Pytest
+        run: |
+          poetry install pytest
       - name: Run PyTest
         run: |
           poetry run pytest
