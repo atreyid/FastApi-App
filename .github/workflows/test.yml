@@ -1,0 +1,39 @@
+name: run-lab-unit-tests
+run-name: ${{ github.actor }} is performing a Pull Request to validate the lab code
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: 'x64'
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      
+      - name: Upgrade pip and install poetry
+        run: |
+         sudo apt update -y
+         sudo apt install curl -y
+         curl -sSL https://install.python-poetry.org | python3 -
+         python -m pip install --upgrade pip
+      
+      - name: Setup Poetry
+        run: |
+          export PATH=/root/.local/bin:${PATH}
+          mkdir lab
+          python -m venv ./lab
+          source ./lab/bin/activate
+          poetry install
+      - name: Run PyTest
+        run: |
+          poetry run pytest
