@@ -20,7 +20,7 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       
-      - name: Upgrade pip and install poetry
+      - name: Upgrade pip
         run: |
          sudo apt update -y
          sudo apt install curl -y
